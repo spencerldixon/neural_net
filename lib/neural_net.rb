@@ -55,7 +55,7 @@ module NeuralNet
   puts Layer.count
   puts Connection.count
 
-  input_layer.input([1,0])
+  input_layer.predict([1,0])
 
 
 
