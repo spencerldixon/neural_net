@@ -6,6 +6,8 @@ module NeuralNet
   require 'neural_net/layer'
   require 'neural_net/neuroon'
   require 'neural_net/connection'
+  require 'neural_net/network'
+
 
 
   # Create a few layers
@@ -51,12 +53,8 @@ module NeuralNet
   first_layer.connect_to(second_layer, bias: 1)
   second_layer.connect_to(third_layer, bias: 1)
 
-  puts Neuron.count
-  puts Layer.count
-  puts Connection.count
-
-  input_layer.predict([1,0])
-
+  network = Network.new
+  network.stats
 
 
 
