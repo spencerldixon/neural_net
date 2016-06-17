@@ -6,7 +6,7 @@ class Connection
   def initialize(from, to)
     @from = from
     @to = to
-    @weight = rand
+    @weight = rand.round(4)
     @value
 
     from.outgoing_connections << self

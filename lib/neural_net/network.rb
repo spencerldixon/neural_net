@@ -9,17 +9,22 @@ class Network
   def stats
     puts "----- About this Neural Network -----"
     puts "Layers: #{Layer.count}"
-    puts "Neurons: #{Neuron.count}"
+    puts "Neurons: #{Neuron.count} (#{Bias.count} of which are Bias neurons) "
     puts "Connections: #{Connection.count}"
     puts "-------------------------------------"
   end
 
   def predict(*inputs)
     @input_layer.neurons.each do |n|
-      n.input(inputs.shift)
+      n.broadcast(inputs.shift)
     end
+
+    @output_layer
   end
 
-  def train
+  def train(*inputs)
+    @input_layer.neurons.each do |n|
+      n.broadcast(inputs.shift)
+    end
   end
 end

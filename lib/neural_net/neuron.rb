@@ -1,5 +1,5 @@
 class Neuron
-  attr_accessor :incoming_connections, :outgoing_connections, :inputs_received, :bias
+  attr_accessor :incoming_connections, :outgoing_connections, :inputs_received, :bias, :graphviz
   @@count = 0
 
   def initialize
@@ -8,6 +8,7 @@ class Neuron
     @outgoing_connections = []
     @inputs_received = 0 # Keep track of how many connection updates the neuron has received, when this is the same as the incoming connections, the neuron is fired and the count resets to 0 ready for the next group of inputs
     @bias = 1
+    @graphviz
   end
 
   def self.count
@@ -24,11 +25,8 @@ class Neuron
 
   def fire
     # Takes all the values and weights from incoming connections, sums them, puts them through the activation function and broadcasts them to the other neurons
+    # This includes a bias node whos value is always 1
     sum = self.incoming_connections.inject(0){ |sum, conn| sum += (conn.value * conn.weight) }
-
-    # Add the bias you fucking thot
-    #sum += (bias[0] * bias[1])
-    #
     result = activate(sum)
     broadcast(result)
     self.inputs_received = 0
@@ -41,8 +39,13 @@ class Neuron
   def broadcast(float)
     # Broadcasts a result to all the outgoing connections of this neuron,
     # The connections hold a weight and a value that the next neuron can use
-    self.outgoing_connections.each do |connection|
-      connection.value = float
+    if self.outgoing_connections.any?
+      self.outgoing_connections.each do |connection|
+        connection.value = float
+      end
+    else
+      # Assume that this is output layer and return value to the network
+      float
     end
   end
 end

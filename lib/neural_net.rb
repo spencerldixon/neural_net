@@ -4,9 +4,9 @@ module NeuralNet
   # Your code goes here...
   require 'neural_net/neuron'
   require 'neural_net/layer'
-  require 'neural_net/neuroon'
   require 'neural_net/connection'
   require 'neural_net/network'
+  require 'neural_net/bias'
 
 
 
@@ -42,19 +42,24 @@ module NeuralNet
   #n1 = Neuron.new
   #n2 = Neuron.new
   #n3 = Neuron.new
+  require 'ruby-graphviz'
+  g = GraphViz.new(:G, type: :digraph, splines: 'line')
   # Or create a layer and specify how many neurons each layer needs
   first_layer = Layer.new
-  first_layer.create_neurons(2)
+  first_layer.create_neurons(2, 1, g, "I")
   second_layer = Layer.new
-  second_layer.create_neurons(2)
+  second_layer.create_neurons(2, 1, g, "H")
   third_layer = Layer.new
-  third_layer.create_neurons(2)
+  third_layer.create_neurons(1, nil, g, "O")
   # Then we connect the layers
-  first_layer.connect_to(second_layer, bias: 1)
-  second_layer.connect_to(third_layer, bias: 1)
+  first_layer.connect_to(second_layer, g)
+  second_layer.connect_to(third_layer, g)
 
-  network = Network.new
+  network = Network.new(first_layer, third_layer)
   network.stats
+  puts first_layer.neurons
+
+  g.output( :png => "network.png" )
 
 
 

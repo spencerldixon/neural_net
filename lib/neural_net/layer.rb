@@ -1,3 +1,5 @@
+require 'ruby-graphviz'
+
 class Layer
   attr_accessor :neurons
   @@count = 0
@@ -24,17 +26,29 @@ class Layer
   def train(array, expected_result)
   end
 
-  def create_neurons(number)
-    number.times do
-      self.neurons << Neuron.new
+  def create_neurons(number, bias, graph, layer_name)
+    number.times do |n|
+      neuron = Neuron.new
+      self.neurons << neuron
+      neuron.graphviz = graph.add_nodes("#{layer_name}#{n}")
+    end
+
+    if bias
+      bias = Bias.new(bias)
+      self.neurons << bias
+      bias.graphviz = graph.add_nodes("Bias #{self.object_id}", color: 'red')
     end
   end
 
-  def connect_to(second_layer, bias: 0)
+  def connect_to(second_layer, graph)
     self.neurons.each do |first_layer_neuron|
-      first_layer_neuron.bias = bias
       second_layer.neurons.each do |second_layer_neuron|
-        Connection.new(first_layer_neuron, second_layer_neuron)
+        conn = Connection.new(first_layer_neuron, second_layer_neuron)
+        if first_layer_neuron.class.name == "Bias"
+          graph.add_edges(first_layer_neuron.graphviz, second_layer_neuron.graphviz, label: conn.weight, fontsize: 8, color: 'red')
+        else
+          graph.add_edges(first_layer_neuron.graphviz, second_layer_neuron.graphviz, label: conn.weight, fontsize: 8)
+        end
       end
     end
   end
