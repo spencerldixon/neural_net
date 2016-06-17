@@ -18,7 +18,7 @@ class Neuron
   def connection_updated
     # Takes an input and adds it to the bucket, when the number of inputs matches the number of incoming connections, the neuron fires
     @inputs_received += 1
-    if @inputs_received.size >= @incoming_connections.size
+    if @inputs_received >= @incoming_connections.size
       self.fire
     end
   end
@@ -26,7 +26,7 @@ class Neuron
   def fire
     # Takes all the values and weights from incoming connections, sums them, puts them through the activation function and broadcasts them to the other neurons
     # This includes a bias node whos value is always 1
-    sum = self.incoming_connections.inject(0){ |sum, conn| sum += (conn.value * conn.weight) }
+    sum = self.incoming_connections.inject(0){ |sum, conn| sum += (conn.value.to_f * conn.weight.to_f) }
     result = activate(sum)
     broadcast(result)
     self.inputs_received = 0
@@ -41,11 +41,11 @@ class Neuron
     # The connections hold a weight and a value that the next neuron can use
     if self.outgoing_connections.any?
       self.outgoing_connections.each do |connection|
-        connection.value = float
+        connection.value=(float)
       end
     else
       # Assume that this is output layer and return value to the network
-      float
+      p "Last node, output: #{float}"
     end
   end
 end

@@ -9,7 +9,7 @@ class Bias < Neuron
     @value = value
     @incoming_connections = []
     @outgoing_connections = []
-    @inputs_received
+    @inputs_received = 0
   end
 
   def self.count

@@ -7,7 +7,7 @@ class Connection
     @from = from
     @to = to
     @weight = rand.round(4)
-    @value
+    @value = 0
 
     from.outgoing_connections << self
     to.incoming_connections << self

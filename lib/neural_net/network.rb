@@ -18,13 +18,8 @@ class Network
     @input_layer.neurons.each do |n|
       n.broadcast(inputs.shift)
     end
-
-    @output_layer
   end
 
-  def train(*inputs)
-    @input_layer.neurons.each do |n|
-      n.broadcast(inputs.shift)
-    end
+  def train(inputs)
   end
 end

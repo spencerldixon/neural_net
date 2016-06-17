@@ -57,7 +57,9 @@ module NeuralNet
 
   network = Network.new(first_layer, third_layer)
   network.stats
-  puts first_layer.neurons
+
+  network.predict(1, 0)
+
 
   g.output( :png => "network.png" )
 
