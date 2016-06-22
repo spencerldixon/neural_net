@@ -1,5 +1,5 @@
 class Network
-  attr_accessor :input_layer, :output_layer
+  attr_accessor :input_layer, :output_layer, :result
 
   def initialize(input_layer, output_layer)
     @input_layer = input_layer
@@ -21,5 +21,10 @@ class Network
   end
 
   def train(inputs)
+  end
+
+  def finish(result)
+    self.result = result
+    result
   end
 end

@@ -1,5 +1,5 @@
 class Neuron
-  attr_accessor :incoming_connections, :outgoing_connections, :inputs_received, :bias, :graphviz
+  attr_accessor :incoming_connections, :outgoing_connections, :inputs_received, :bias, :graphviz, :network
   @@count = 0
 
   def initialize
@@ -9,6 +9,8 @@ class Neuron
     @inputs_received = 0 # Keep track of how many connection updates the neuron has received, when this is the same as the incoming connections, the neuron is fired and the count resets to 0 ready for the next group of inputs
     @bias = 1
     @graphviz
+    # Neuron has to know about its network to report back
+    @network
   end
 
   def self.count
@@ -44,8 +46,8 @@ class Neuron
         connection.value=(float)
       end
     else
-      # Assume that this is output layer and return value to the network
-      p "Last node, output: #{float}"
+      # Assume that this is output layer and return value to the console/network
+      p float
     end
   end
 end
