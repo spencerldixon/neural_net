@@ -30,6 +30,8 @@ Or install it yourself as:
 Load up `irb` and `require 'neural_net'`
 Examples will be added as the project progresses
 
+Currently only supports networks with a single output neuron, outputting a continuous value
+
 
 ## License
 

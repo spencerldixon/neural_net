@@ -46,8 +46,9 @@ class Neuron
         connection.value=(float)
       end
     else
-      # Assume that this is output layer and return value to the console/network
-      p float
+      # Assume that this is output layer and return value to the network and call output
+      self.network.result = float
+      self.network.output
     end
   end
 end

@@ -10,6 +10,7 @@ module NeuralNet
 
   require 'neural_net/neural_network'
   require 'ruby-graphviz'
+  require 'ostruct'
 
   # Create a few layers
   #input_layer = NeuralNet::Layer.new
@@ -62,10 +63,13 @@ module NeuralNet
     layers: [
       {name: "Input", neurons: 2, bias: true},
       {name: "Hidden", neurons: 3, bias: true},
-      {name: "Hidden", neurons: 4, bias: true},
       {name: "Output", neurons: 1}
     ],
-    graph: GraphViz.new(:G, type: :digraph, splines: 'line') # Optional but needed if you want to generate a diagram
+    graph: GraphViz.new(:G,
+                        type: :graph,
+                        splines: 'line',
+                        dpi: 300,
+                       ) # Optional but needed if you want to generate a diagram
   )
 
   # Get a summary of the networks layers, connections, neurons, how many times it's been trained, iterations of the same dataset etc. Call this at any time to get a snapshot of the network
@@ -84,7 +88,9 @@ module NeuralNet
   #network.accuracy
 
   # Predict the output for a single dataset
-  #network.predict(dataset: [0.2, 0.4])
+  network.predict(dataset: [1, 0])
+
+  puts network.output.inspect
 
   # Neuron will know about the network it's part of and be able to report back to it, so will connections and layers.
   # Weights and values get passed and stored in the connections, like the previous model

@@ -49,14 +49,17 @@ class Layer
     end
   end
 
-  def connect_to(second_layer, graph)
+  def connect_to(second_layer, graph=nil)
     self.neurons.each do |first_layer_neuron|
       second_layer.neurons.each do |second_layer_neuron|
         conn = Connection.new(first_layer_neuron, second_layer_neuron)
-        if first_layer_neuron.class.name == "Bias"
-          graph.add_edges(first_layer_neuron.graphviz, second_layer_neuron.graphviz, label: conn.weight, fontsize: 8, color: 'red')
-        else
-          graph.add_edges(first_layer_neuron.graphviz, second_layer_neuron.graphviz, label: conn.weight, fontsize: 8)
+        # Graph the connection
+        unless graph.nil?
+          if first_layer_neuron.class.name == "Bias"
+            graph.add_edges(first_layer_neuron.graphviz, second_layer_neuron.graphviz, penwidth: conn.weight.round(2), fontsize: 8, labeldistance: 0.05, color: 'red')
+          else
+            graph.add_edges(first_layer_neuron.graphviz, second_layer_neuron.graphviz, penwidth: conn.weight.round(2), fontsize: 8, labeldistance: 0.10)
+          end
         end
       end
     end
