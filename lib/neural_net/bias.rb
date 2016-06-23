@@ -4,7 +4,7 @@ class Bias < Neuron
   attr_accessor :value, :incoming_connections, :outgoing_connections, :inputs_received
   @@count = 0
 
-  def initialize(value)
+  def initialize(value: 1)
     @@count += 1
     @value = value
     @incoming_connections = []

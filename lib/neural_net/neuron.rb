@@ -2,7 +2,7 @@ class Neuron
   attr_accessor :incoming_connections, :outgoing_connections, :inputs_received, :bias, :graphviz, :network
   @@count = 0
 
-  def initialize
+  def initialize(network)
     @@count += 1
     @incoming_connections = []
     @outgoing_connections = []
@@ -10,7 +10,7 @@ class Neuron
     @bias = 1
     @graphviz
     # Neuron has to know about its network to report back
-    @network
+    @network = network
   end
 
   def self.count

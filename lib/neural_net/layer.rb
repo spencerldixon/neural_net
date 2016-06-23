@@ -1,12 +1,21 @@
 require 'ruby-graphviz'
+require 'securerandom'
 
 class Layer
-  attr_accessor :neurons
+  attr_accessor :neurons, :name
   @@count = 0
 
-  def initialize
+  def initialize(name:      'Hidden',
+                 neurons:   0,
+                 bias:      false,
+                 network:   nil
+                 )
+    @name = name
     @neurons = []
     @@count += 1
+
+    create_neurons(neurons, network)
+    create_bias(network) if bias
   end
 
   def self.count
@@ -26,7 +35,7 @@ class Layer
   def train(array, expected_result)
   end
 
-  def create_neurons(number, bias, graph, layer_name)
+  def cccreate_neurons(number, bias, graph, layer_name)
     number.times do |n|
       neuron = Neuron.new
       self.neurons << neuron
@@ -52,4 +61,25 @@ class Layer
       end
     end
   end
+
+  private
+    def create_neurons(number, network)
+      number.times do |n|
+        neuron = Neuron.new(network)
+        self.neurons << neuron
+        # Graph the layer
+        unless network.graph.nil?
+          neuron.graphviz = network.graph.add_nodes(SecureRandom.uuid, label: "#{self.name[0].upcase}#{n}")
+        end
+      end
+    end
+
+    def create_bias(network)
+      bias = Bias.new
+      self.neurons << bias
+      # Graph the node
+      unless network.graph.nil?
+        bias.graphviz = network.graph.add_nodes(SecureRandom.uuid, color: 'red', label: "B#{self.name[0].upcase}")
+      end
+    end
 end
