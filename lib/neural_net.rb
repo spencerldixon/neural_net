@@ -78,23 +78,17 @@ module NeuralNet
   # Generate a diagram for the network
   network.diagram
 
-  # Input a single dataset and expected output to train the network, array size must match input neurons
-  #network.train(dataset: [0.1, 0.2], output: 0.3)
+  # Input a single dataset and expected output to train the network, array size must match input neurons and output neurons
+  #network.train(dataset: [0.1, 0.2], ideal: [0.3])
 
   # Take a csv where each column is an input and the final column is the expected output, train for X iterations of the dataset
   #network.train_from_csv(path: "/", iterations: 200)
 
-  # Get the current accuracy for the network
-  #network.accuracy
-
   # Predict the output for a single dataset
   network.predict(dataset: [1, 0])
 
-  puts network.output.inspect
-
-  # Neuron will know about the network it's part of and be able to report back to it, so will connections and layers.
-  # Weights and values get passed and stored in the connections, like the previous model
-  # Only difference is everything is done from the network object and everything knows about the network
-  # Integrate with Redis for storage?
+  # Get the current accuracy for the network
+  # network.output.mse
+  #p network.output.rmse
 end
 

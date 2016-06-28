@@ -1,5 +1,5 @@
 class Neuron
-  attr_accessor :incoming_connections, :outgoing_connections, :inputs_received, :bias, :graphviz, :network
+  attr_accessor :incoming_connections, :outgoing_connections, :inputs_received, :bias, :graphviz, :network, :output
   @@count = 0
 
   def initialize(network)
@@ -10,7 +10,9 @@ class Neuron
     @bias = 1
     @graphviz
     # Neuron has to know about its network to report back
+    # But this makes it recursive and everything breaks when doing network.inspect. Or you could just keep this because it works until you do network.inspect
     @network = network
+    @output
   end
 
   def self.count
@@ -31,6 +33,7 @@ class Neuron
     sum = self.incoming_connections.inject(0){ |sum, conn| sum += (conn.value.to_f * conn.weight.to_f) }
     result = activate(sum)
     broadcast(result)
+    self.output = result
     self.inputs_received = 0
   end
 
@@ -47,6 +50,8 @@ class Neuron
       end
     else
       # Assume that this is output layer and return value to the network and call output
+      # eventually get rid of the network result and just store it in the neuron
+      # TODO - Ensure all output neurons have calculated their result first
       self.network.result = float
       self.network.output
     end
